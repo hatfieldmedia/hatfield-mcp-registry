@@ -1,54 +1,40 @@
 #!/usr/bin/env node
 /**
  * Generates GitHub Pages endpoint files from mcp-registry.json.
- *
- * Output structure under docs/v0.1/servers/:
- *   index.html                                      -> GET /v0.1/servers
- *   {serverName}/versions/latest/index.html         -> GET /v0.1/servers/{serverName}/versions/latest
- *   {serverName}/versions/{version}/index.html      -> GET /v0.1/servers/{serverName}/versions/{version}
- *
- * GitHub Pages serves /path/index.html at /path/, satisfying all three required endpoints.
+ * Uses index.html in directories so GitHub Pages serves them at the right paths.
  */
 
 const fs = require('fs');
 const path = require('path');
 
 const REGISTRY_FILE = path.join(__dirname, '..', 'mcp-registry.json');
-const OUTPUT_BASE = path.join(__dirname, '..', 'docs', 'v0.1', 'servers');
+const DOCS_DIR = path.join(__dirname, '..', 'docs');
+
+function writeFile(filePath, content) {
+  fs.mkdirSync(path.dirname(filePath), { recursive: true });
+  fs.writeFileSync(filePath, content);
+}
 
 function main() {
   const registry = JSON.parse(fs.readFileSync(REGISTRY_FILE, 'utf-8'));
 
-  // Root index.html (base URL must return a valid response)
-  const rootPath = path.join(__dirname, '..', 'docs', 'index.html');
-  fs.mkdirSync(path.dirname(rootPath), { recursive: true });
-  fs.writeFileSync(rootPath, JSON.stringify({ name: 'hatfield-mcp-registry', version: '0.1' }));
-  console.log('✓ GET /');
-
   // GET /v0.1/servers
-  const indexPath = path.join(OUTPUT_BASE, 'index.html');
-  fs.mkdirSync(path.dirname(indexPath), { recursive: true });
-  fs.writeFileSync(indexPath, JSON.stringify(registry));
+  writeFile(path.join(DOCS_DIR, 'v0.1', 'servers', 'index.html'), JSON.stringify(registry));
   console.log('✓ GET /v0.1/servers');
 
   for (const serverEntry of registry.servers) {
     const { name, version } = serverEntry.server;
     const entry = JSON.stringify({ server: serverEntry.server, _meta: serverEntry._meta });
 
-    const versionsDir = path.join(OUTPUT_BASE, name, 'versions');
+    const versionsDir = path.join(DOCS_DIR, 'v0.1', 'servers', name, 'versions');
 
-    // GET /v0.1/servers/{name}/versions/latest
-    const latestPath = path.join(versionsDir, 'latest', 'index.html');
-    fs.mkdirSync(path.dirname(latestPath), { recursive: true });
-    fs.writeFileSync(latestPath, entry);
-
-    // GET /v0.1/servers/{name}/versions/{version}
-    const versionPath = path.join(versionsDir, version, 'index.html');
-    fs.mkdirSync(path.dirname(versionPath), { recursive: true });
-    fs.writeFileSync(versionPath, entry);
+    writeFile(path.join(versionsDir, 'latest', 'index.html'), entry);
+    writeFile(path.join(versionsDir, version, 'index.html'), entry);
 
     console.log(`✓ ${name} (v${version})`);
   }
+
+  console.log('\n✅ Done');
 }
 
 main();

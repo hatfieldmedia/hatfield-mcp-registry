@@ -6,7 +6,7 @@
     {
       "server": {
         "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-        "name": "io.github.microsoft/playwright-mcp",
+        "name": "playwright",
         "description": "Playwright Tools for MCP",
         "version": "0.0.75",
         "repository": {
