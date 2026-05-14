@@ -6,7 +6,7 @@
     {
       "server": {
         "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-        "name": "playwright",
+        "name": "local/playwright",
         "title": "Playwright MCP",
         "description": "Browser automation and testing using Playwright.",
         "version": "0.0.75",
