@@ -33,8 +33,7 @@ function main() {
 
   for (const serverEntry of registry.servers) {
     const { name, version } = serverEntry.server;
-    const { packages: _, ...serverWithoutPackages } = serverEntry.server;
-    const entry = JSON.stringify({ server: serverWithoutPackages, _meta: serverEntry._meta });
+    const entry = JSON.stringify({ server: serverEntry.server, _meta: serverEntry._meta });
 
     const versionsDir = path.join(OUTPUT_BASE, name, 'versions');
 
