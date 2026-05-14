@@ -19,6 +19,12 @@ const OUTPUT_BASE = path.join(__dirname, '..', 'docs', 'v0.1', 'servers');
 function main() {
   const registry = JSON.parse(fs.readFileSync(REGISTRY_FILE, 'utf-8'));
 
+  // Root index.html (base URL must return a valid response)
+  const rootPath = path.join(__dirname, '..', 'docs', 'index.html');
+  fs.mkdirSync(path.dirname(rootPath), { recursive: true });
+  fs.writeFileSync(rootPath, JSON.stringify({ name: 'hatfield-mcp-registry', version: '0.1' }));
+  console.log('✓ GET /');
+
   // GET /v0.1/servers
   const indexPath = path.join(OUTPUT_BASE, 'index.html');
   fs.mkdirSync(path.dirname(indexPath), { recursive: true });
