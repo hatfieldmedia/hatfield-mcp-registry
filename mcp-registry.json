@@ -37,7 +37,7 @@
     {
       "server": {
         "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-        "name": "Laravel Boost",
+        "name": "laravel-boost",
         "description": "Laravel Boost MCP server - accelerates AI-assisted development by providing Laravel-specific context and tools",
         "version": "2.4.11",
         "repository": {
