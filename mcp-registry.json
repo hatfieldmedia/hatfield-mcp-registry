@@ -43,29 +43,7 @@
         "repository": {
           "url": "https://github.com/laravel/boost",
           "source": "github"
-        },
-        "packages": [
-          {
-            "registryType": "composer",
-            "registryBaseUrl": "https://packagist.org",
-            "identifier": "laravel/boost",
-            "version": "2.4.11",
-            "runtimeHint": "php",
-            "runtimeArguments": [
-              {
-                "type": "positional",
-                "value": "artisan"
-              },
-              {
-                "type": "positional",
-                "value": "boost:mcp"
-              }
-            ],
-            "transport": {
-              "type": "stdio"
-            }
-          }
-        ]
+        }
       },
       "_meta": {
         "io.modelcontextprotocol.registry/official": {
